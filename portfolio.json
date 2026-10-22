@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "name": "signal-foundry-alan-vo",
+  "owner": "ALANDVO",
+  "email": "alanvo@gmail.com",
+  "domain": "AI/ML developer tools",
+  "workflows": [
+    "Contact and lead management with AI-powered scoring",
+    "Account-based pipeline tracking with opportunity forecasting",
+    "Automated audit trail for compliance and analytics"
+  ],
+  "auth": "oidc-keycloak-saml-broker",
+  "llm_providers": [
+    "openai-compatible",
+    "anthropic",
+    "gemini",
+    "ollama"
+  ],
+  "summary": "Work in progress: signal-foundry-alan-vo",
+  "status": "work-in-progress"
+}
