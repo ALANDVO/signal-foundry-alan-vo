@@ -6,7 +6,7 @@ from app.models.opportunity import Opportunity, OpportunityStage
 from app.models.account import Account
 from app.models.contact import Contact
 from app.models.audit_log import AuditLog, AuditAction
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional, List
 from datetime import datetime
 
@@ -49,8 +49,7 @@ class OpportunityResponse(OpportunityBase):
     created_at: datetime
     updated_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class OpportunityListResponse(BaseModel):

@@ -33,6 +33,7 @@ Acceptance:
 - CRUD API endpoints with pagination/filtering
 - Input validation and UTC timestamps
 - Audit log for mutations
+- Pydantic v2 ConfigDict migration (no deprecation warnings)
 
 Implementation: `backend/app/models/contact.py`, `backend/app/models/account.py`, `backend/app/models/opportunity.py`, `backend/app/models/audit_log.py`, `backend/app/api/routes/contacts.py`, `backend/app/api/routes/accounts.py`, `backend/app/api/routes/opportunities.py`
 

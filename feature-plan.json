@@ -68,7 +68,8 @@
         "Contact/Account/Opportunity models with SQLite persistence",
         "CRUD API endpoints with pagination/filtering",
         "Input validation and UTC timestamps",
-        "Audit log for mutations"
+        "Audit log for mutations",
+        "Pydantic v2 ConfigDict migration (no deprecation warnings)"
       ],
       "implementation": [
         "backend/app/models/contact.py",
