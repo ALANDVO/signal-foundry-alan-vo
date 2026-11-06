@@ -5,7 +5,7 @@ from sqlalchemy.orm import selectinload
 from app.core.database import get_db
 from app.models.contact import Contact
 from app.models.audit_log import AuditLog, AuditAction
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field, ConfigDict
 from typing import Optional, List
 from datetime import datetime
 
@@ -44,8 +44,7 @@ class ContactResponse(ContactBase):
     created_at: datetime
     updated_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class ContactListResponse(BaseModel):
