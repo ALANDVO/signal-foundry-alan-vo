@@ -76,4 +76,4 @@ Tests: `frontend/src/components/ui.test.tsx`
 
 ---
 
-Alan Vo · [alanvo.net](https://alanvo.net)
+Alan Vo · [alanvo.net](https://alanvo.net) · [X: @alanvoasi](https://x.com/alanvoasi)
