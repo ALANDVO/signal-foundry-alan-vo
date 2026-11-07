@@ -74,3 +74,6 @@ Implementation: `frontend/src/pages/DashboardPage.tsx`, `frontend/src/pages/Cont
 
 Tests: `frontend/src/components/ui.test.tsx`
 
+---
+
+Alan Vo · [alanvo.net](https://alanvo.net)

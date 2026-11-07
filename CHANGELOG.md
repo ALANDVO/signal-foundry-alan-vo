@@ -51,3 +51,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Pluggable LLM provider adapters (OpenAI-compatible, Anthropic, Gemini, Ollama)
 - Three core AI workflows defined: lead scoring, churn risk, next-best-action
 - Provider-agnostic configuration system
+
+---
+
+Alan Vo · [alanvo.net](https://alanvo.net)

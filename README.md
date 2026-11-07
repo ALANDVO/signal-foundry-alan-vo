@@ -208,3 +208,7 @@ cd frontend && npm test
 ## License
 
 MIT Copyright Alan Vo <alanvo@gmail.com>
+
+---
+
+Alan Vo · [alanvo.net](https://alanvo.net)
