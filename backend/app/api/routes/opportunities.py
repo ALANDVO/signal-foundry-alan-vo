@@ -60,6 +60,24 @@ class OpportunityListResponse(BaseModel):
     total_pages: int
 
 
+class PipelineStageSummary(BaseModel):
+    stage: OpportunityStage
+    count: int
+    total_amount: float
+    weighted_amount: float
+
+
+class PipelineSummaryResponse(BaseModel):
+    stages: List[PipelineStageSummary]
+    total_open_count: int
+    total_open_amount: float
+    total_weighted_amount: float
+    total_won_count: int
+    total_won_amount: float
+    total_lost_count: int
+    total_lost_amount: float
+
+
 def log_audit(db: AsyncSession, entity_type: str, entity_id: int, action: AuditAction, user_email: Optional[str] = None, changes: Optional[str] = None):
     log = AuditLog(
         entity_type=entity_type,
@@ -192,3 +210,61 @@ async def delete_opportunity(opportunity_id: int, db: AsyncSession = Depends(get
     log_audit(db, "opportunity", opportunity_id, AuditAction.DELETE)
     await db.delete(opportunity)
     await db.commit()
+@router.get("/pipeline/summary", response_model=PipelineSummaryResponse)
+async def get_pipeline_summary(db: AsyncSession = Depends(get_db)) -> PipelineSummaryResponse:
+    # Get all opportunities grouped by stage with sums
+    query = select(
+        Opportunity.stage,
+        func.count(Opportunity.id).label("count"),
+        func.coalesce(func.sum(Opportunity.amount), 0).label("total_amount"),
+        func.coalesce(func.sum(Opportunity.amount * Opportunity.probability / 100), 0).label("weighted_amount")
+    ).group_by(Opportunity.stage)
+
+    result = await db.execute(query)
+    rows = result.all()
+
+    stage_data = {row.stage: row for row in rows}
+
+    stages = []
+    total_open_count = 0
+    total_open_amount = 0.0
+    total_weighted_amount = 0.0
+    total_won_count = 0
+    total_won_amount = 0.0
+    total_lost_count = 0
+    total_lost_amount = 0.0
+
+    for stage in OpportunityStage:
+        row = stage_data.get(stage)
+        count = row.count if row else 0
+        total_amount = float(row.total_amount) if row else 0.0
+        weighted_amount = float(row.weighted_amount) if row else 0.0
+
+        stages.append(PipelineStageSummary(
+            stage=stage,
+            count=count,
+            total_amount=total_amount,
+            weighted_amount=weighted_amount
+        ))
+
+        if stage == OpportunityStage.CLOSED_WON:
+            total_won_count = count
+            total_won_amount = total_amount
+        elif stage == OpportunityStage.CLOSED_LOST:
+            total_lost_count = count
+            total_lost_amount = total_amount
+        else:
+            total_open_count += count
+            total_open_amount += total_amount
+            total_weighted_amount += weighted_amount
+
+    return PipelineSummaryResponse(
+        stages=stages,
+        total_open_count=total_open_count,
+        total_open_amount=total_open_amount,
+        total_weighted_amount=total_weighted_amount,
+        total_won_count=total_won_count,
+        total_won_amount=total_won_amount,
+        total_lost_count=total_lost_count,
+        total_lost_amount=total_lost_amount
+    )

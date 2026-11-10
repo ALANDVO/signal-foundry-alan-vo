@@ -4,7 +4,7 @@ Each round completes one feature or repair. Future items are planned, not implem
 
 ## Current round
 
-project-skeleton
+pipeline-summary
 
 ## Roadmap
 
@@ -20,7 +20,7 @@ Acceptance:
 - Frontend tests pass (vitest)
 - CI workflow defined
 
-Implementation: `backend/app/main.py`, `backend/app/api/routes/health.py`, `backend/app/api/routes/contacts.py`, `backend/app/api/routes/accounts.py`, `backend/app/api/routes/opportunities.py`, `backend/app/models/contact.py`, `backend/app/models/account.py`, `backend/app/models/opportunity.py`, `backend/app/models/audit_log.py`, `backend/app/core/config.py`, `backend/app/core/database.py`, `backend/requirements.txt`, `backend/Dockerfile`, `frontend/src/main.tsx`, `frontend/src/App.tsx`, `frontend/src/pages/DashboardPage.tsx`, `frontend/src/pages/ContactsPage.tsx`, `frontend/src/pages/AccountsPage.tsx`, `frontend/src/pages/OpportunitiesPage.tsx`, `frontend/src/components/ui/Button.tsx`, `frontend/src/components/ui/Input.tsx`, `frontend/src/components/ui/Select.tsx`, `frontend/src/components/ui/Modal.tsx`, `frontend/src/components/ui/Table.tsx`, `frontend/src/components/ui/Pagination.tsx`, `frontend/src/components/Toast.tsx`, `frontend/src/components/Layout.tsx`, `frontend/src/api/client.ts`, `frontend/src/hooks/useApi.ts`, `frontend/src/types/api.ts`, `frontend/package.json`, `frontend/vite.config.ts`, `frontend/Dockerfile`, `frontend/nginx.conf`, `docker-compose.yaml`, `.github/workflows/ci.yml`
+Implementation: `backend/app/main.py`, `backend/app/api/routes/health.py`, `backend/app/api/routes/contacts.py`, `backend/app/api/routes/accounts.py`, `backend/app/api/routes/opportunities.py`, `backend/app/models/contact.py`, `backend/app/models/account.py`, `backend/app/models/opportunity.py`, `backend/app/models/audit_log.py`, `backend/app/core/config.py`, `backend/app/core/database.py`, `backend/requirements.txt`, `backend/Dockerfile`, `frontend/src/main.tsx`, `frontend/src/App.tsx`, `frontend/src/pages/DashboardPage.tsx`, `frontend/src/pages/ContactsPage.tsx`, `frontend/src/pages/AccountsPage.tsx`, `frontend/src/pages/OpportunitiesPage.tsx`, `frontend/src/components/ui/Button.tsx`, `frontend/src/components/ui/Input.tsx`, `frontend/src/components/ui/Select.tsx`, `frontend/src/components/ui/Card.tsx`, `frontend/src/components/ui/Table.tsx`, `frontend/src/components/ui/Modal.tsx`, `frontend/src/components/ui/Toast.tsx`, `frontend/src/components/ui/Badge.tsx`, `frontend/src/hooks/useApi.ts`, `frontend/src/api/client.ts`, `frontend/src/types/api.ts`, `frontend/vite.config.ts`, `frontend/tsconfig.json`, `frontend/tsconfig.node.json`, `frontend/package.json`, `frontend/Dockerfile`, `frontend/nginx.conf`, `frontend/index.html`, `docker-compose.yaml`, `.github/workflows/ci.yml`
 
 Tests: `backend/tests/test_health.py`, `backend/tests/test_contacts.py`, `backend/tests/test_accounts.py`, `backend/tests/test_opportunities.py`, `frontend/src/components/ui.test.tsx`
 
@@ -73,6 +73,22 @@ Acceptance:
 Implementation: `frontend/src/pages/DashboardPage.tsx`, `frontend/src/pages/ContactsPage.tsx`, `frontend/src/pages/AccountsPage.tsx`, `frontend/src/pages/OpportunitiesPage.tsx`, `frontend/src/hooks/useApi.ts`, `frontend/src/api/client.ts`
 
 Tests: `frontend/src/components/ui.test.tsx`
+
+### pipeline-summary — Pipeline value summary and stage breakdown
+
+Status: done
+
+Acceptance:
+- New /opportunities/pipeline/summary endpoint returning total value by stage
+- Weighted pipeline calculation (amount x probability)
+- Won/lost totals separated from open pipeline
+- Dashboard shows pipeline by stage breakdown with weighted values
+- Stats cards use accurate totals from summary endpoint (not limited by page_size)
+- Tests cover pipeline summary endpoint
+
+Implementation: `backend/app/api/routes/opportunities.py`, `backend/tests/test_opportunities.py`, `frontend/src/types/api.ts`, `frontend/src/api/client.ts`, `frontend/src/hooks/useApi.ts`, `frontend/src/pages/DashboardPage.tsx`
+
+Tests: `backend/tests/test_opportunities.py::test_pipeline_summary`
 
 ---
 

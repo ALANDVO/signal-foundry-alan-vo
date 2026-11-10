@@ -113,6 +113,7 @@ export function useCreateOpportunity() {
     mutationFn: (data: OpportunityCreate) => opportunitiesApi.create(data).then(res => res.data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['opportunities'] });
+      queryClient.invalidateQueries({ queryKey: ['pipeline-summary'] });
     },
   });
 }
@@ -123,6 +124,7 @@ export function useUpdateOpportunity() {
     mutationFn: ({ id, data }: { id: number; data: OpportunityUpdate }) => opportunitiesApi.update(id, data).then(res => res.data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['opportunities'] });
+      queryClient.invalidateQueries({ queryKey: ['pipeline-summary'] });
     },
   });
 }
@@ -133,6 +135,14 @@ export function useDeleteOpportunity() {
     mutationFn: (id: number) => opportunitiesApi.delete(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['opportunities'] });
+      queryClient.invalidateQueries({ queryKey: ['pipeline-summary'] });
     },
+  });
+}
+export function usePipelineSummary() {
+  return useQuery({
+    queryKey: ['pipeline-summary'],
+    queryFn: () => pipelineApi.getSummary().then(res => res.data),
+    staleTime: 30000,
   });
 }
