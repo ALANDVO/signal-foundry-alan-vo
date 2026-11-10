@@ -76,6 +76,11 @@ export const opportunitiesApi = {
     api.delete(`/opportunities/${id}`),
 };
 
+export const pipelineApi = {
+  getSummary: () =>
+    api.get<PipelineSummaryResponse>('/opportunities/pipeline/summary'),
+};
+
 export const healthApi = {
   check: () =>
     api.get<{ status: string; app: string; environment: string }>('/health'),

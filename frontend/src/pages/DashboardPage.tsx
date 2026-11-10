@@ -1,12 +1,12 @@
 import React from 'react';
-import { useContacts, useAccounts, useOpportunities } from '../hooks/useApi';
+import { useContacts, useAccounts, useOpportunities, usePipelineSummary } from '../hooks/useApi';
 import { Link } from 'react-router-dom';
-import type { AccountType, OpportunityStage } from '../types/api';
-
+import type { AccountType, OpportunityStage, PipelineStageSummary } from '../types/api';
 export const DashboardPage: React.FC = () => {
   const { data: contactsData } = useContacts({ page_size: 5 });
   const { data: accountsData, isLoading: accountsLoading } = useAccounts({ page_size: 5 });
   const { data: opportunitiesData, isLoading: opportunitiesLoading } = useOpportunities({ page_size: 5 });
+  const { data: pipelineSummary, isLoading: pipelineLoading } = usePipelineSummary();
 
   const stats = [
     {
@@ -25,18 +25,32 @@ export const DashboardPage: React.FC = () => {
     },
     {
       label: 'Open Opportunities',
-      value: opportunitiesData?.items.filter(o => o.stage !== 'closed_won' && o.stage !== 'closed_lost').length || 0,
+      value: pipelineSummary?.total_open_count || opportunitiesData?.items.filter(o => o.stage !== 'closed_won' && o.stage !== 'closed_lost').length || 0,
       icon: '💼',
       color: '#f59e0b',
       link: '/opportunities',
     },
     {
       label: 'Pipeline Value',
-      value: '$' + (opportunitiesData?.items
+      value: '$' + (pipelineSummary?.total_open_amount || opportunitiesData?.items
         .filter(o => o.stage !== 'closed_won' && o.stage !== 'closed_lost')
         .reduce((sum, o) => sum + (o.amount || 0), 0) || 0).toLocaleString(),
       icon: '💰',
       color: '#dc2626',
+      link: '/opportunities',
+    },
+    {
+      label: 'Weighted Pipeline',
+      value: '$' + (pipelineSummary?.total_weighted_amount || 0).toLocaleString(),
+      icon: '📊',
+      color: '#8b5cf6',
+      link: '/opportunities',
+    },
+    {
+      label: 'Won',
+      value: '$' + (pipelineSummary?.total_won_amount || 0).toLocaleString(),
+      icon: '🏆',
+      color: '#16a34a',
       link: '/opportunities',
     },
   ];
@@ -170,6 +184,37 @@ export const DashboardPage: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {pipelineSummary && (
+        <div className="card" style={{ marginTop: '1.5rem' }}>
+          <div className="card-header">
+            <h2 style={{ fontSize: '1rem', fontWeight: '600' }}>Pipeline by Stage</h2>
+          </div>
+          <div className="card-body" style={{ padding: 0 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem' }}>
+              {pipelineSummary.stages
+                .filter(s => s.stage !== 'closed_won' && s.stage !== 'closed_lost')
+                .map((stage: PipelineStageSummary) => (
+                  <div key={stage.stage} style={{ padding: '1.5rem', borderRight: '1px solid var(--color-border)' }}>
+                    <p style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--color-text-muted)', marginBottom: '0.5rem' }}>
+                      {stage.stage.replace('_', ' ')}
+                    </p>
+                    <p style={{ fontSize: '1.5rem', fontWeight: '700', color: 'var(--color-text)', marginBottom: '0.25rem' }}>
+                      ${stage.total_amount.toLocaleString()}
+                    </p>
+                    <p style={{ fontSize: '0.875rem', color: 'var(--color-text-muted)', marginBottom: '0.25rem' }}>
+                      {stage.count} opportunities
+                    </p>
+                    <p style={{ fontSize: '0.875rem', color: stageColors[stage.stage] }}>
+                      Weighted: ${stage.weighted_amount.toLocaleString()}
+                    </p>
+                  </div>
+                ))}
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };

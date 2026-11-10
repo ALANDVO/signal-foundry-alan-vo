@@ -1,6 +1,7 @@
+
 {
   "schema_version": 1,
-  "current_feature": "project-skeleton",
+  "current_feature": "pipeline-summary",
   "features": [
     {
       "id": "project-skeleton",
@@ -37,18 +38,21 @@
         "frontend/src/components/ui/Button.tsx",
         "frontend/src/components/ui/Input.tsx",
         "frontend/src/components/ui/Select.tsx",
-        "frontend/src/components/ui/Modal.tsx",
+        "frontend/src/components/ui/Card.tsx",
         "frontend/src/components/ui/Table.tsx",
-        "frontend/src/components/ui/Pagination.tsx",
-        "frontend/src/components/Toast.tsx",
-        "frontend/src/components/Layout.tsx",
-        "frontend/src/api/client.ts",
+        "frontend/src/components/ui/Modal.tsx",
+        "frontend/src/components/ui/Toast.tsx",
+        "frontend/src/components/ui/Badge.tsx",
         "frontend/src/hooks/useApi.ts",
+        "frontend/src/api/client.ts",
         "frontend/src/types/api.ts",
-        "frontend/package.json",
         "frontend/vite.config.ts",
+        "frontend/tsconfig.json",
+        "frontend/tsconfig.node.json",
+        "frontend/package.json",
         "frontend/Dockerfile",
         "frontend/nginx.conf",
+        "frontend/index.html",
         "docker-compose.yaml",
         ".github/workflows/ci.yml"
       ],
@@ -133,6 +137,30 @@
       ],
       "tests": [
         "frontend/src/components/ui.test.tsx"
+      ]
+    },
+    {
+      "id": "pipeline-summary",
+      "title": "Pipeline value summary and stage breakdown",
+      "status": "done",
+      "acceptance": [
+        "New /opportunities/pipeline/summary endpoint returning total value by stage",
+        "Weighted pipeline calculation (amount x probability)",
+        "Won/lost totals separated from open pipeline",
+        "Dashboard shows pipeline by stage breakdown with weighted values",
+        "Stats cards use accurate totals from summary endpoint (not limited by page_size)",
+        "Tests cover pipeline summary endpoint"
+      ],
+      "implementation": [
+        "backend/app/api/routes/opportunities.py",
+        "backend/tests/test_opportunities.py",
+        "frontend/src/types/api.ts",
+        "frontend/src/api/client.ts",
+        "frontend/src/hooks/useApi.ts",
+        "frontend/src/pages/DashboardPage.tsx"
+      ],
+      "tests": [
+        "backend/tests/test_opportunities.py::test_pipeline_summary"
       ]
     }
   ]

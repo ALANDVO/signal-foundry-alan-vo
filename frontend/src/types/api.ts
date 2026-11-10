@@ -129,6 +129,25 @@ export interface OpportunityUpdate {
   account_id?: number;
   contact_id?: number;
 }
+export type OpportunityStage = 'prospecting' | 'qualification' | 'proposal' | 'negotiation' | 'closed_won' | 'closed_lost';
+
+export interface PipelineStageSummary {
+  stage: OpportunityStage;
+  count: number;
+  total_amount: number;
+  weighted_amount: number;
+}
+
+export interface PipelineSummaryResponse {
+  stages: PipelineStageSummary[];
+  total_open_count: number;
+  total_open_amount: number;
+  total_weighted_amount: number;
+  total_won_count: number;
+  total_won_amount: number;
+  total_lost_count: number;
+  total_lost_amount: number;
+}
 
 export interface AuditLog {
   id: number;
