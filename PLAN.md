@@ -41,7 +41,7 @@ Tests: `backend/tests/test_contacts.py`, `backend/tests/test_accounts.py`, `back
 
 ### auth-oidc-keycloak — OIDC authentication with Keycloak
 
-Status: planned
+Status: in_progress
 
 Acceptance:
 - Authorization code flow with PKCE
@@ -49,6 +49,10 @@ Acceptance:
 - Role-based access control (viewer/operator/admin)
 - Protected API endpoints
 - Login/logout flows
+
+Implementation: `backend/app/api/routes/auth.py`, `backend/app/core/config.py`
+
+Tests: `backend/tests/test_auth.py`
 
 ### ai-workflow-engine — AI/ML workflow engine for CRM insights
 

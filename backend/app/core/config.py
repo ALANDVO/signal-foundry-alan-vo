@@ -20,6 +20,7 @@ class Settings(BaseSettings):
     oidc_client_id: Optional[str] = None
     oidc_client_secret: Optional[str] = None
     oidc_redirect_uri: Optional[str] = None
+    oidc_realm_name: Optional[str] = "master"
 
     llm_provider: Optional[str] = None
     llm_model: Optional[str] = None
