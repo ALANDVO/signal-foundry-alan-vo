@@ -1,4 +1,3 @@
-
 {
   "schema_version": 1,
   "current_feature": "pipeline-summary",
@@ -93,7 +92,7 @@
     {
       "id": "auth-oidc-keycloak",
       "title": "OIDC authentication with Keycloak",
-      "status": "planned",
+      "status": "in_progress",
       "acceptance": [
         "Authorization code flow with PKCE",
         "HttpOnly cookie sessions with CSRF protection",
@@ -101,8 +100,13 @@
         "Protected API endpoints",
         "Login/logout flows"
       ],
-      "implementation": [],
-      "tests": []
+      "implementation": [
+        "backend/app/api/routes/auth.py",
+        "backend/app/core/config.py"
+      ],
+      "tests": [
+        "backend/tests/test_auth.py"
+      ]
     },
     {
       "id": "ai-workflow-engine",
