@@ -92,7 +92,7 @@
     {
       "id": "auth-oidc-keycloak",
       "title": "OIDC authentication with Keycloak",
-      "status": "in_progress",
+      "status": "done",
       "acceptance": [
         "Authorization code flow with PKCE",
         "HttpOnly cookie sessions with CSRF protection",

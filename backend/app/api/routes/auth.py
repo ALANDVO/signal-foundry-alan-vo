@@ -9,7 +9,7 @@ import asyncio
 from app.core.config import settings
 from app.core.database import get_db
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.models.account import Account
+from app.models.account import Account, AccountType
 
 router = APIRouter(tags=["auth"])
 
@@ -146,10 +146,22 @@ async def auth_callback(
         user_info = keycloak.userinfo(token_data["access_token"])
         
         # Look up or create user in local database
-        result = await db.execute(
-            select(Account).where(Account.email == user_info.get("email", ""))
-        )
-        # ... (user handling simplified)
+        stmt = select(Account).where(Account.email == user_info.get('email', ''))
+        result = await db.execute(stmt)
+        user = result.scalar_one_or_none()
+        
+        if not user:
+            # Create new account from Keycloak user info
+            user = Account(
+                name=user_info.get('name', ''),
+                email=user_info.get('email', ''),
+                type=AccountType.PROSPECT,
+            )
+            db.add(user)
+            await db.commit()
+            await db.refresh(user)
+        
+        # Store user ID in session via cookie
         
         # Set HttpOnly cookie with access token
         response = JSONResponse({
