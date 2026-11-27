@@ -41,7 +41,7 @@ Tests: `backend/tests/test_contacts.py`, `backend/tests/test_accounts.py`, `back
 
 ### auth-oidc-keycloak — OIDC authentication with Keycloak
 
-Status: in_progress
+Status: done
 
 Acceptance:
 - Authorization code flow with PKCE
